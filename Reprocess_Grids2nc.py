@@ -34,8 +34,8 @@ def convertText2NetCDF(globPath):
             Tofname = transectFname[:-3] + 'nc'
             print 'Making %s ' % Tofname
             # first make transect
-            TransectDict = sb.import_FRF_Transect(transectFname)
-            TransectDict['time'] = nc.date2num(TransectDict['time'], 'seconds since 1970-01-01')
+            TransectDict = sb.import_FRF_Transect(transectFname)  # import frf Transect product
+            TransectDict['time'] = nc.date2num(TransectDict['time'], 'seconds since 1970-01-01') # convert the time to epoch time
             makenc.makenc_FRFTransect(bathyDict=TransectDict, ofname=Tofname, globalYaml=transectGlobalYaml, varYaml=transectVarYaml)
         except Exception, e:
             print e

@@ -21,18 +21,18 @@ def convertText2NetCDF(fnameIn):
     transectVarYaml = yamlPath + 'transect_variables.yml'    
     
     ## INPUTS   - rename
-    if fnameIn.split('.')[-1] == 'txt':
+    if fnameIn.split('.')[-1] in ['txt', "txt'"]:
         filelist = []
         gridList = [fnameIn]  
-    elif fnameIn.split('.')[-1] == 'csv':
+    elif fnameIn.split('.')[-1] in ["csv'", 'csv']:
         filelist = [fnameIn]
-        gridList =  []
+        gridList = []
     else:
         filelist = []
         gridList = []
-        print ' No Files To Convert to NetCDF'
+        print '<<ERROR>> No Files To Convert to NetCDF'
         
-    logFile = globPath[:-3] + 'BathyNetCDFConversion.log'
+    logFile = globPath[:-4].split('/')[-1]+ 'BathyNetCDFConversion.log'
 
     errorFname, errors = [],[]
     # creating a list of transect files to look for
@@ -48,7 +48,7 @@ def convertText2NetCDF(fnameIn):
             print e
             errors.append(e)
             errorFname.append(transectFname)
-
+    # looping through grids in grid List
     for gridFname in gridList:
         try:
             ofname = gridFname.split('.')[0] + '.nc'
@@ -63,6 +63,8 @@ def convertText2NetCDF(fnameIn):
     # log errors
     # log errors that were encountered during file creation
     if len(errors) > 0:
+        if not os.path.exists('logs'):
+            os.makedirs('logs')
         f = open('logs/' + logFile, 'w')  # opening file
         f.write('File, Error\n')  # writing headers
         for aa in range(0, len(errorFname)):  # looping through errors
@@ -73,4 +75,6 @@ if __name__ == "__main__":
     opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
     #  Location of where to look for files to convert
     globPath = args[0]
+    if globPath.startswith("'") and globPath.endswith("'"):
+        globPath = globPath[1:-1]
     convertText2NetCDF(globPath)
