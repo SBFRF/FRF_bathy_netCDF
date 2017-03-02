@@ -325,37 +325,12 @@ def makenc_FRFGrid(gridDict, ofname, globalYaml, varYaml):
     fid = init_nc_file(ofname, globalAtts)
 
     # creating dimensions of data
-    xShore = fid.createDimension('xShore', np.shape(gridDict['zgrid'])[0])
-    yShore = fid.createDimension('yShore', np.shape(gridDict['zgrid'])[1])
+    xFRF = fid.createDimension('xFRF', np.shape(gridDict['xFRF'])[0])
+    yFRF = fid.createDimension('yFRF', np.shape(gridDict['yFRF'])[0])
     time = fid.createDimension('time', np.size(gridDict['time']))
 
-    # creating lat/lon and state plane coords
-    #xgrid, ygrid = np.meshgrid(gridDict['xgrid'], gridDict['ygrid'])
-    xx, yy = np.meshgrid(gridDict['xgrid'], gridDict['ygrid'])
-    latGrid = np.zeros(np.shape(yy))
-    lonGrid = np.zeros(np.shape(xx))
-    statePlN = np.zeros(np.shape(yy))
-    statePlE = np.zeros(np.shape(xx))
-    for iy in range(0, np.size(gridDict['zgrid'], axis=1)):
-        for ix in range(0, np.size(gridDict['zgrid'], axis=0)):
-            coords = sb.FRFcoord(xx[iy, ix], yy[iy, ix])#, grid[iy, ix]))
-            statePlE[iy, ix] = coords['StateplaneE']
-            statePlN[iy, ix] = coords['StateplaneN']
-            latGrid[iy, ix] = coords['Lat']
-            lonGrid[iy, ix] = coords['Lon']
-            assert xx[iy, ix] == coords['FRF_X']
-            assert yy[iy, ix] == coords['FRF_Y']
 
-    # put these data into the dictionary that matches the yaml
-    gridDict['Latitude'] = latGrid[:, 0]
-    gridDict['Longitude'] = lonGrid[0, :]
-    gridDict['Easting'] = statePlE[:, 0]
-    gridDict['Northing'] = statePlN[0, :]
-    gridDict['FRF_Xshore'] = gridDict.pop('xgrid')
-    gridDict['FRF_Yshore'] = gridDict.pop('ygrid')
-    # addding 3rd dimension for time
-    a=gridDict.pop('zgrid').T
-    gridDict['Elevation'] = np.full([1, a.shape[0], a.shape[1]], fill_value=[a], dtype=np.float32)
+
     # write data to file
     write_data_to_nc(fid, varAtts, gridDict)
     # close file
@@ -390,8 +365,8 @@ def makenc_Station(stat_data, globalyaml_fname, flagfname, ofname, griddata, sta
     fid = init_nc_file(ofname, globalatts)  # initialize and write inital globals
 
     #### create dimensions
-    tdim = fid.createDimension('time', np.shape(stat_data['time'])[0])  # None = size of the dimension, what does this gain me if i know it
-    inputtypes = fid.createDimension('input_types_length', np.shape(flags)[1]) # there are 4 input dtaa types for flags
+    tdim = fid.createDimension('time', np.shape(stat_data['time'])[0])  #
+    inputtypes = fid.createDimension('input_types_length', np.shape(flags)[1])  # there are 4 input data types for flags
     statnamelen = fid.createDimension('station_name_length', len(stat_data['station_name']))
     northing = fid.createDimension('Northing', 1L)
     easting = fid.createDimension('Easting', 1L )
@@ -408,7 +383,6 @@ def makenc_Station(stat_data, globalyaml_fname, flagfname, ofname, griddata, sta
     # close file
     fid.close()
 
-
 def convert_FRFgrid(gridFname, ofname, globalYaml, varYaml, plotFlag=False):
     """
     This function will convert the FRF gridded text product into a NetCDF file
@@ -419,14 +393,13 @@ def convert_FRFgrid(gridFname, ofname, globalYaml, varYaml, plotFlag=False):
     :param varYaml:  a yaml file containing variable meta data
     :return: None
     """
-    # Defining rigid parameters
-
+    # Defining rigid parameters of the FRF grid
     # defining the bounds of the FRF gridded product
     gridYmax = 1100  # maximum FRF Y distance for netCDF file
     gridYmin = -100  # minimum FRF Y distance for netCDF file
     gridXmax = 950  # maximum FRF X distance for netCDF file
     gridXmin = 50  # minimum FRF xdistance for netCDF file
-    fill_value= '-999.0'
+    fill_value = '-999'
     # main body
     # load Grid from file
     xyz = sb.importFRFgrid(gridFname)
@@ -440,7 +413,7 @@ def convert_FRFgrid(gridFname, ofname, globalYaml, varYaml, plotFlag=False):
     # putting the loaded grid into a 2D array
     zgrid = np.zeros((len(xgrid), len(ygrid)))
     rc = 0
-    for i in range(np.size(ygrid, axis=0 )):
+    for i in range(np.size(ygrid, axis=0)):
         for j in range(np.size(xgrid, axis=0)):
             zgrid[j, i] = xyz['z'][rc]
             rc += 1
@@ -473,20 +446,82 @@ def convert_FRFgrid(gridFname, ofname, globalYaml, varYaml, plotFlag=False):
     assert set(xOverlap).issubset(ncXcoord), 'The FRF X values in your function do not fit into the netCDF format, please rectify'
     assert set(yOverlap).issubset(ncYcoord), 'The FRF Y values in your function do not fit into the netCDF format, please rectify'
 
-    # putting the data into a dictioary to make a netCDF file
+
+    collectionTypes = ['GPS', 'Geodimeter', 'Zeiss', 'Level']
+    surveyVehicles = ['CRAB', 'LARC']
+    # Parse MetaData from Filename
     fields = gridFname.split('_')
     for fld in fields:
-        if len(fld) == 8:
+        if len(fld) == 8:  # survey Date
             try:  # tr
                 int(fld)  # try to convert it to a number incase one of the other fields are 8 char long
                 time = nc.date2num(DT.datetime(int(fld[:4]), int(fld[4:6]),
                                                 int(fld[6:])), 'seconds since 1970-01-01')
-                break
+                # break was here when only time was of interest
             except ValueError:
                 continue
+        elif len(fld) == 4 and fld in surveyVehicles:  # survey vehicles
+            if fld == 'CRAB':
+                surveyVehicle = 0
+            elif fld == 'LARC':
+                surveyVehicle = 1
+        elif len(fld) == 4:  # survey Number
+            try:
+                surveyNumber = int(fld)
+            except ValueError:
+                continue
+        elif fld == 'NAVD88':  # survey Datum
+            datum = fld
+        elif fld in collectionTypes:  # identifying collection method
+            if fld == 'Level':
+                surveyInstrumentation = 0
+            elif fld == 'Zeiss':
+                surveyInstrumentation = 1
+            elif fld == 'Geodimeter':
+                surveyInstrumentation = 2
+            elif fld == 'GPS':
+                surveyInstrumentation = 3
+        elif fld[0] == 'v':  # version number
+            versionDate = fld
+    # wrapping up data into dictionary for output
     gridDict = {'zgrid': frame,
                 'xgrid': ncXcoord,
                 'ygrid': ncYcoord,
-                'time': time }
-    # making the netCDF file from the gridded data
+                'time': time,
+                'surveyVehicle': surveyVehicle,
+                'surveyNumber': surveyNumber,
+                'surveyInstrumentation': surveyInstrumentation,
+                'datum': datum,
+                'versionDate': versionDate,
+                'project': fields[3]
+                }
+    # creating lat/lon and state plane coords
+    # xgrid, ygrid = np.meshgrid(gridDict['xgrid'], gridDict['ygrid'])
+    xx, yy = np.meshgrid(gridDict['xgrid'], gridDict['ygrid'])
+    latGrid = np.zeros(np.shape(yy))
+    lonGrid = np.zeros(np.shape(xx))
+    statePlN = np.zeros(np.shape(yy))
+    statePlE = np.zeros(np.shape(xx))
+    for iy in range(0, np.size(gridDict['zgrid'], axis=1)):
+        for ix in range(0, np.size(gridDict['zgrid'], axis=0)):
+            coords = sb.FRFcoord(xx[iy, ix], yy[iy, ix])  # , grid[iy, ix]))
+            statePlE[iy, ix] = coords['StateplaneE']
+            statePlN[iy, ix] = coords['StateplaneN']
+            latGrid[iy, ix] = coords['Lat']
+            lonGrid[iy, ix] = coords['Lon']
+            assert xx[iy, ix] == coords['FRF_X']
+            assert yy[iy, ix] == coords['FRF_Y']
+
+    # put these data into the dictionary that matches the yaml
+    gridDict['latitude'] = latGrid
+    gridDict['longitude'] = lonGrid
+    gridDict['easting'] = statePlE
+    gridDict['northing'] = statePlN
+    gridDict['xFRF'] = gridDict.pop('xgrid')
+    gridDict['yFRF'] = gridDict.pop('ygrid')
+    # addding 3rd dimension for time
+    a = gridDict.pop('zgrid').T
+    gridDict['elevation'] = np.full([1, a.shape[0], a.shape[1]], fill_value=[a], dtype=np.float32)
+
+# making the netCDF file from the gridded data
     makenc_FRFGrid(gridDict, ofname, globalYaml, varYaml)
