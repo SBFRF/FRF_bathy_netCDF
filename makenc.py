@@ -329,8 +329,6 @@ def makenc_FRFGrid(gridDict, ofname, globalYaml, varYaml):
     yFRF = fid.createDimension('yFRF', np.shape(gridDict['yFRF'])[0])
     time = fid.createDimension('time', np.size(gridDict['time']))
 
-
-
     # write data to file
     write_data_to_nc(fid, varAtts, gridDict)
     # close file

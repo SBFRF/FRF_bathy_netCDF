@@ -1,9 +1,9 @@
 import sys, getopt, os
 sys.path.append('/home/spike/CMTB/')
 import makenc, glob
-from matplotlib import pyplot as plt
+#from matplotlib import pyplot as plt
 import netCDF4 as nc
-import numpy as np
+#import numpy as np
 import sblib as sb
 
 def convertText2NetCDF(globPath):
