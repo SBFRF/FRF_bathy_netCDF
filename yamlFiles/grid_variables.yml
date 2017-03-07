@@ -89,7 +89,7 @@ surveyNumber:
     standard_name: ''
     long_name: 'FRF incremental survey number'
     data_type: 'i4'
-    dim: []
+    dim: ['time']
     fill_value: '-999'
     short_name: 'surveyNumber'
 
@@ -99,7 +99,7 @@ surveyInstrumentation:
     standard_name: ''
     long_name: 'FRF survey instrumentation'
     data_type: 'i1'
-    dim: []
+    dim: ['time']
     fill_value: '-999'
     short_name: 'surveyInstrumentation'
     notes: 'values of in this field are associated with instrumentation used: 0 = Level; 1 = Zeiss; 2 = Geodimeter; 3 = GPS'
@@ -110,7 +110,7 @@ surveyVehicle:
     standard_name: ''
     long_name: 'FRF survey vehicle'
     data_type: 'i1'
-    dim: []
+    dim: ['time']
     fill_value: '-999'
     short_name: 'surveyInstrumentation'
     notes: 'values of in this field are associated with collection platforms: 0 = CRAB; 1 = LARC'
@@ -121,7 +121,7 @@ versionDate:
     standard_name: ''
     long_name: 'Date of Last file Edits'
     data_type: 'f8'
-    dim: []
+    dim: ['time']
     fill_value: '-999'
     short_name: 'version Date'
 
@@ -131,7 +131,7 @@ project:
     standard_name: ''
     long_name: 'FRF project name'
     data_type: 'f8'
-    dim: []
+    dim: ['time']
     fill_value: '-999'
     short_name: 'Project'
     notes: 'FRF project name; FRF is standard monthly survey'
