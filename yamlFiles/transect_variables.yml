@@ -53,7 +53,7 @@ Easting:
     short_name: 'Easting'
 
 FRF_Xshore:
-    name: 'FRF_Xshore'
+    name: 'xFRF'
     units: 'm'
     standard_name: ''
     long_name: 'Local FRF Cross-Shore Coordinate'
@@ -63,7 +63,7 @@ FRF_Xshore:
     short_name: 'x'
 
 FRF_Yshore:
-    name: 'FRF_Yshore'
+    name: 'yFRF'
     units: 'm'
     standard_name: ''
     long_name: 'Local FRF Along-Shore coordinate'
