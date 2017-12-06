@@ -1,20 +1,21 @@
 featureType: geospatial
-title: Beach and Nearshore Surveys at the USACE, Field Research Facility (FRF) in Duck, NC 1999 to Now
+title: Beach and Nearshore Surveys at the USACE, Field Research Facility (FRF) in Duck, NC
 summary: >
-  Repetitive surveys of 28 shore-perpendicular profile lines surrounding the USACE Field Research Facility
+  Repetitive surveys of shore-perpendicular profile lines surrounding the USACE Field Research Facility
   (FRF) in Duck, NC (600 m to the north and 600 m to the south of the research pier).  Surveys are typically
-  monthly.  Profile lines are spaced 45m apart and extend from the primary dune to approximately 2km offshore
-  (-14m isobath NAVD88). Survey points are obtained using an Trimble RTK GPS system combined with a Knudsen
-  survey grade echosounder and optionally, a TSS DMS 3-25 motion sensor.  These components are mounted on a
-  Lighter Amphibious Resupply Cargo V (LARC-V) vessel which is capable of continuous data collection from the
+  monthly but can increase in both temporal and spatial coverage during experiments.  Profile lines are spaced 
+  45m apart and extend from the primary dune to approximately 2km offshore(-15m isobath NAVD88). 
+  Survey points are obtained using a variety of techniques (evolving through time) including;rod and level, Miniranger, Zeiss, Geodimeter,
+  and Trimble RTK GPS system combined with a survey grade echosounder and optionally, a motion sensor.  
+  These components are mounted on one of the following platforms; Lighter Amphibious Resupply Cargo V (LARC-V) vessel, the coastal research amphibious 
+  buggy (CRAB),or a Sea Sled that is towed by a vessel. All surveying platforms are capable of continuous data collection from the
   beach, through the surf zone and offshore. Conductivity, temperature, and depth (CTD) are measured at the
   end of the FRF pier to a depth of -7 m on the day of survey in order to determine the speed of sound in
   the water column.  Data points are collected on average every 2.5 m. Topographic (TOPO) survey points of
-  the beach and dune, above the elevation reached by the LARC-V, are collected with a walking backpack
-  mounted Trimble RTK GPS system. Since changes in the dune occur less frequently than does the beach and
+  the beach and dune, above the elevation reached by the LARC-V, are periodically collected. Since changes in the dune occur less frequently than does the beach and
   offshore, TOPO points may be added from an earlier time period.
 history: >
-  These data are part of a series of surveys since October 1980, designed to document the evolving 
+  These data are part of a series of surveys since October 1974, designed to document the evolving 
   beach topography and bathymetry surrounding the USACE Field Research Facility (FRF) and to measure its 
   response to coastal processes, including storms.  Survey data are complemented by a suite of continuous
   observations of local waves, winds, tides and currents.  These data are unique in their temporal 
@@ -29,7 +30,7 @@ creator_name: USACE/CHL/COAB
 creator_url: http://frf.usace.army.mil
 creator_email: frfwebmaster@usace.army.mil
 license: >
-  These data may be redistributed and used without restriction. .
+  These data may be redistributed and used without restriction. 
   Data are intended for scholarly use by the research community,
   with the express agreement that users will properly acknowledge
   the USACE Field Research Facility and the supporting investigator(s).
@@ -38,16 +39,16 @@ license: >
 keywords_vocabulary: FGlobal Change Master Directory (GCMD) Earth Science Keywords; CF Standard Name Table (v23, 23 March 2013)
 keywords: Earth Science > Oceans > Coastal Processes > Shoreline Earth Science > Oceans > Coastal Processes > Beaches Earth Science > Oceans > Coastal Processes > elevation Earth Science > Oceans > Coastal Processes > Barrier islands Earth Science > Oceans > Coastal Processes > sediment transport
 processing: >
-  Hypack, Inc.'s Hypack software guides both the LARC-V vessel and back-pack mounted TOPO systems along 
-  the profile lines and logs the RTK-GPS data (1 Hz), echosounder depth (9 Hz) and motion data (9 Hz). 
-  Processing software consists of Fathomax, a custom FORTRAN routine that dynamically synchronizes the 
+  Hypack, Inc.'s Hypack software guides the survey platforms along 
+  the profile lines and logs the data. Processing software consists of Fathomax, a custom FORTRAN routine that 
+  works on both the CRAB and LARC survey platforms. For the LARC, Fathomax dynamically synchronizes the 
   GPS, echosounder, and motion sensor data in order to remove the motion of the vessel due to waves. 
   This is accomplished by adjusting the latency between the GPS and the echosounder data streams until 
   the influence of the wave motion is minimized, and a best fit is obtained. The survey software also
   adjusts depths for the speed of sound and converts geographic coordinates to the local FRF coordinate 
-  system. Data collection and processing is done using Microsoft Windows-based computers. Data file size
-  varies from 70-3,300 kb depending on the number or profile lines included in the survey.  Data are measured
-  in Lat/Lon and
+  system. For the CRAB, Fathomax subtracts the elevation of the tripod and accounts for tilt in steep areas
+  by a sloper iterative technique. Data collection and processing is done using Microsoft Windows-based computers. Data file size
+  varies from 70-3,300 kb depending on the number or profile lines included in the survey.  
 
 organization: USACE/CHL/COAB
 publisher_url: http://frf.usace.army.mil
@@ -63,14 +64,13 @@ contributor_name: USACE/CHL/COAB
 contributor_role: USACE/CHL/COAB
 naming_authority: FRF
 origin: USACE/CHL/COAB
-date_created: '2015-09-19'
-date_issued: '2015-09-19'
+date_created: '2017-12-06'
+date_issued: '2017-12-06'
 acknowledgement: >
-  Data are provided by the Field Research Facility;
-  Coastal Observations &amp; Analysis Branch;
-  US Army Corps of Engineers, Duck, North Carolina.
+  Data are provided by the U.S Army Engineer and Research Center,
+  Coastal & Hydraulics Laboratory, Field Research Facility, Duck, North Carolina.
 project: USACE/COAB observations
-id: FRF-LARC-Survey
+id: FRF-BeachProfile-Survey
 processing_level: L1
 geospatial_vertical_units: m
 geospatial_vertical_resolution: 0
@@ -84,11 +84,11 @@ geospatial_lon_min: 75.58
 geospatial_lon_max: 75.96
 geospatial_lon_units: degrees_west
 geospatial_vertical_positive: up
-time_coverage_start: '1999'
+time_coverage_start: '1980'
 time_coverage_end: 'current'
-deployment_start: '1999'
-platform: LARC-V
-instrument: Bathymetry System
+deployment_start: '1980'
+platform: LARC, CRAB, Sled, Rod-Level
+instrument: Beach Profile Measuring Systems
 cross_shore_angle_units: degrees_north
 cross_shore_angle_description: cross shore angle at the USACE FRF site in DUCK, NC, clockwise from true north
 cross_shore_angle: 71.8

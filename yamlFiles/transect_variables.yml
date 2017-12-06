@@ -40,7 +40,7 @@ Northing:
     data_type: 'f8'
     dim: ['time']
     fill_value: '-999'
-    short_name: 'Depth'
+    short_name: 'Northing'
 
 Easting:
     name: 'easting'
@@ -81,18 +81,18 @@ Elevation:
     dim: ['time']
     fill_value: '-999'
     short_name: 'z'
-    description: 'Elevation is in NAVD88'
+    description: 'Elevation is in NAVD88 via geoid 2003'
 
-#Locality_Code:
-#    name: 'localityCode'
-#    units: ''
-#    standard_name: ''
-#    long_name: 'Locality code'
-#    data_type: 'S1'
-#    dim: ['waveDirectionBins']
-#    fill_value: '-999.99'
-#    short_name: 'Direction'
-#    description: ''
+Collection_Platform:
+    name: 'Collection_Platform'
+    units: ''
+    standard_name: ''
+    long_name: 'Collection_Platform'
+    data_type: 'S1'
+    dim: ['waveDirectionBins']
+    fill_value: '-999.99'
+    short_name: ''
+    description: 'Survey Craft used during data collection (i.e LARC, CRAB, Sled)'
 
 Profile_number:
     name: 'profileNumber'
@@ -102,8 +102,8 @@ Profile_number:
     data_type: 'u2'
     dim: ['time']
     fill_value: '-999'
-    short_name: '1D Wave Energy'
-    description: ' here is a description'
+    short_name: 'profile number'
+    description: ' Profile number based on FRF_Yshore coordinates'
 
 
 Survey_number:
@@ -115,15 +115,15 @@ Survey_number:
     dim: ['time']
     fill_value: '-999'
     short_name: 'sruvery number'
-    description: 'heres a description'
+    description: 'incremental value beginning with first survey'
 
 Ellipsoid:
     name: 'Ellipsoid'
-    units: ''
-    standard_name: ''
-    long_name: ''
+    units: 'm'
+    standard_name: 'ellipsoid'
+    long_name: 'ellipsoid'
     data_type: 'f8'
     dim: ['time']
     fill_value: '-999'
-    short_name: ''
-    description: ''
+    short_name: 'ellipsoid'
+    description: 'ellipsoid referenced during survey'
