@@ -1,6 +1,6 @@
 # WAVE TEMPLATE
 
-_variables: ['time', 'Latitude', 'Longitude', 'Northing', 'Easting', 'FRF_Xshore', 'FRF_Yshore', 'Elevation', 'Profile_number', 'Survey_number',  'Ellipsoid']
+_variables: ['time', 'Latitude', 'Longitude', 'Northing', 'Easting', 'xFRF', 'yFRF', 'Elevation', 'Profile_number', 'Survey_number',  'Ellipsoid']
 _attributes: ['notes']
 _dimensions: ['time']
 
@@ -52,7 +52,7 @@ Easting:
     fill_value: '-999'
     short_name: 'Easting'
 
-FRF_Xshore:
+xFRF:
     name: 'xFRF'
     units: 'm'
     standard_name: ''
@@ -62,7 +62,7 @@ FRF_Xshore:
     fill_value: '-999'
     short_name: 'x'
 
-FRF_Yshore:
+yFRF:
     name: 'yFRF'
     units: 'm'
     standard_name: ''

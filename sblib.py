@@ -900,8 +900,8 @@ def import_FRF_Transect(fname):
                  'Longitude': np.array(c4),
                  'Northing': np.array(c5),
                  'Easting': np.array(c6),
-                 'FRF_Xshore': np.array(c7),
-                 'FRF_Yshore': np.array(c8),
+                 'xFRF': np.array(c7),
+                 'yFRF': np.array(c8),
                  'Elevation': np.array(c9),
                  'Ellipsoid': np.array(c10),
                  'time': np.array(time),  # datetime object
