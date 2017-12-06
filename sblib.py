@@ -892,8 +892,19 @@ def import_FRF_Transect(fname):
                           tzinfo=pytz.timezone('EST'))
         time.append(
             EST.astimezone(pytz.timezone('UTC')).replace(tzinfo=None))  # converting to UTC, and removing UTC metadata
-
-    bathyDict = {'Locality_Code': np.array(c0),
+    # now make survey platform decision
+    if fname.split('_')[-4] == 'LARC':
+        Collection_Platform = 1
+    elif fname.split('_')[-4] == 'CRAB':
+        Collection_Platform = 2
+    elif fname.split('_')[-4] == 'CRAB-Sled':
+        Collection_Platform = 3
+    elif fname.split('_')[-4] == 'Topo':
+        Collection_Platform = 4
+    else:
+        Collection_Platform = 5
+    bathyDict = {'Collection_Platform': Collection_Platform,
+                 'Locality_Code': np.array(c0),
                  'Profile_number': np.array(c1),
                  'Survey_number': np.array(c2),
                  'Latitude': np.array(c3),

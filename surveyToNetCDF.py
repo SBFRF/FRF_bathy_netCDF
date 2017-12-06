@@ -32,7 +32,7 @@ def convertText2NetCDF(fnameIn):
         gridList = []
         print '<<ERROR>> No Files To Convert to NetCDF'
         
-    logFile = globPath[:-4].split('/')[-1]+ 'BathyNetCDFConversion.log'
+    logFile = fnameIn[:-4].split('/')[-1]+ 'BathyNetCDFConversion.log'
 
     errorFname, errors = [],[]
     # creating a list of transect files to look for
