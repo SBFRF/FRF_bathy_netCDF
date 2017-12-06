@@ -88,11 +88,11 @@ Collection_Platform:
     units: ''
     standard_name: ''
     long_name: 'Collection_Platform'
-    data_type: 'S1'
-    dim: ['waveDirectionBins']
+    data_type: 'i1'
+    dim: []
     fill_value: '-999.99'
     short_name: ''
-    description: 'Survey Craft used during data collection (i.e LARC, CRAB, Sled)'
+    description: 'Survey Craft used during data collection (i.e LARC-1, CRAB-2, Sled-3, Topo-4, unknown - 5)'
 
 Profile_number:
     name: 'profileNumber'

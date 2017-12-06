@@ -89,6 +89,5 @@ time_coverage_end: 'current'
 deployment_start: '1980'
 platform: LARC, CRAB, Sled, Rod-Level
 instrument: Beach Profile Measuring Systems
-cross_shore_angle_units: degrees_north
-cross_shore_angle_description: cross shore angle at the USACE FRF site in DUCK, NC, clockwise from true north
-cross_shore_angle: 71.8
+
+
