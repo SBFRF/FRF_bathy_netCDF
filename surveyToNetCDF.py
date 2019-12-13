@@ -1,6 +1,6 @@
 import sys, getopt, os
 sys.path.append('/home/spike/CMTB/')
-import makenc, glob
+import makenc, glob, time
 from matplotlib import pyplot as plt
 import netCDF4 as nc
 import numpy as np
@@ -11,7 +11,8 @@ def convertText2NetCDF(fnameIn):
     This function searches the given path for both grids and transect files present at the FRF to make the data into
     netCDF files
     the below yaml's have to be in the same folder as the
-    :param globPath: a path to find the yaml files and the data
+    
+    :param fnameIn: a path to find the yaml files and the data
     :return:
     """
     yamlPath = 'yamlFiles/'
@@ -38,12 +39,14 @@ def convertText2NetCDF(fnameIn):
     # creating a list of transect files to look for
     for transectFname in filelist:
         try:
-            Tofname = transectFname[:-3] + 'nc'
+            Tofname = transectFname.split('.')[0] + '.nc'
             print '  <II> Making %s ' % Tofname
             # first make transect
             TransectDict = sb.import_FRF_Transect(transectFname)
             TransectDict['time'] = nc.date2num(TransectDict['time'], 'seconds since 1970-01-01')
-            makenc.makenc_FRFTransect(bathyDict=TransectDict, ofname=Tofname, globalYaml=transectGlobalYaml, varYaml=transectVarYaml)
+            TransectDict['date'] = [time.mktime(TransectDict['date'][ii].timetuple()) for ii in range(TransectDict['date'].shape[0])]
+            makenc.makenc_FRFTransect(bathyDict=TransectDict, ofname=Tofname,
+                                      globalYaml=transectGlobalYaml, varYaml=transectVarYaml)
         except Exception, e:
             print e
             errors.append(e)

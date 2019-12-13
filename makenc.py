@@ -17,7 +17,7 @@ try:
     import sblib as sb
 except ImportError:
     import sys
-    sys.path.append('c:\users\u4hncasb\documents\code_repositories\sblib')
+
     sys.path.append('/home/spike/repos/sblib')
     sys.path.append('/home/number/repos/sblib')
     import sblib as sb
@@ -453,8 +453,7 @@ def convert_FRFgrid(gridFname, ofname, globalYaml, varYaml, plotFlag=False):
         if len(fld) == 8:  # survey Date
             try:  # tr
                 int(fld)  # try to convert it to a number incase one of the other fields are 8 char long
-                time = nc.date2num(DT.datetime(int(fld[:4]), int(fld[4:6]),
-                                                int(fld[6:])), 'seconds since 1970-01-01')
+                time = nc.date2num(DT.datetime.strptime(fld, '%Y%m%d'), 'seconds since 1970-01-01')
                 # break was here when only time was of interest
             except ValueError:
                 continue
@@ -482,7 +481,7 @@ def convert_FRFgrid(gridFname, ofname, globalYaml, varYaml, plotFlag=False):
         elif fld[0] == 'v':  # version number
             versionDate = fld
     # wrapping up data into dictionary for output
-    gridDict = {'zgrid': frame,
+    gridDict = {'zgrid': frame.T,
                 'xgrid': ncXcoord,
                 'ygrid': ncYcoord,
                 'time': time,
@@ -500,8 +499,8 @@ def convert_FRFgrid(gridFname, ofname, globalYaml, varYaml, plotFlag=False):
     lonGrid = np.zeros(np.shape(xx))
     statePlN = np.zeros(np.shape(yy))
     statePlE = np.zeros(np.shape(xx))
-    for iy in range(0, np.size(gridDict['zgrid'], axis=1)):
-        for ix in range(0, np.size(gridDict['zgrid'], axis=0)):
+    for iy in range(0, np.size(gridDict['zgrid'], axis=0)):
+        for ix in range(0, np.size(gridDict['zgrid'], axis=1)):
             coords = sb.FRFcoord(xx[iy, ix], yy[iy, ix])  # , grid[iy, ix]))
             statePlE[iy, ix] = coords['StateplaneE']
             statePlN[iy, ix] = coords['StateplaneN']
@@ -518,7 +517,7 @@ def convert_FRFgrid(gridFname, ofname, globalYaml, varYaml, plotFlag=False):
     gridDict['xFRF'] = gridDict.pop('xgrid')
     gridDict['yFRF'] = gridDict.pop('ygrid')
     # addding 3rd dimension for time
-    a = gridDict.pop('zgrid').T
+    a = gridDict.pop('zgrid')
     gridDict['elevation'] = np.full([1, a.shape[0], a.shape[1]], fill_value=[a], dtype=np.float32)
 
 # making the netCDF file from the gridded data

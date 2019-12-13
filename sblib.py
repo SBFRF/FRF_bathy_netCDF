@@ -885,13 +885,17 @@ def import_FRF_Transect(fname):
             #    c13.append(row[13])   seconds past midnight
     # convert EST to UTC
 
-    time = []
+    date,time = [], []
     for ii in range(0, len(c12)):
-        EST = DT.datetime(int(c11[ii][0:4]), int(c11[ii][4:6]), int(c11[ii][6:]),
-                          int(c12[ii][:2]), int(c12[ii][2:4]), int(c12[ii][4:]),
-                          tzinfo=pytz.timezone('EST'))
-        time.append(
-            EST.astimezone(pytz.timezone('UTC')).replace(tzinfo=None))  # converting to UTC, and removing UTC metadata
+        #print(ii, ''.join([c11[ii], c12[ii]]))
+        try:  # data are in UTC already
+            time.append(DT.datetime.strptime(''.join([c11[ii], c12[ii]]), 
+                                '%Y%m%d%H%M%S'))
+            date.append(time[-1].date())
+        except(ValueError):
+            del c0[ii], c1[ii], c2[ii], c3[ii], c4[ii],c5[ii], c6[ii],c7[ii]
+            del c8[ii], c9[ii], c10[ii]
+            pass  # date doesn't convert properly (bad datapoint)
     # now make survey platform decision
     if fname.split('_')[-4] == 'LARC':
         Collection_Platform = 1
@@ -903,6 +907,7 @@ def import_FRF_Transect(fname):
         Collection_Platform = 4
     else:
         Collection_Platform = 5
+    
     bathyDict = {'Collection_Platform': Collection_Platform,
                  'Locality_Code': np.array(c0),
                  'Profile_number': np.array(c1),
@@ -915,7 +920,8 @@ def import_FRF_Transect(fname):
                  'yFRF': np.array(c8),
                  'Elevation': np.array(c9),
                  'Ellipsoid': np.array(c10),
-                 'time': np.array(time),  # datetime object
+                 'time': np.array(time), #  datetime object
+                 'date': np.array(date),
                  'meta': 'date and Time has been converted to a UTC datetimeta object, elevation is in NAVD88',
                  }
     return bathyDict
