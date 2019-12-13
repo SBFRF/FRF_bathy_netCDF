@@ -14,6 +14,16 @@ time:
     calendar: 'gregorian'
     fill_value: '-999'
 
+date: 
+    name: 'date'
+    units: 'seconds since 1970-01-01'
+    calendar: 'gregorian'
+    data_type: 'f8'
+    long_name: 'UTC date of Survey'
+    dim: ['time']
+    notes: 'This is the date of the suvey, all of which are the same'
+    
+
 Latitude:
     name: 'lat'
     units: 'degrees_north'
