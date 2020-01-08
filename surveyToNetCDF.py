@@ -6,7 +6,7 @@ import netCDF4 as nc
 import numpy as np
 import sblib as sb
 
-def convertText2NetCDF(fnameIn):
+def convertText2NetCDF(fnameIn, fnameOut=None):
     """
     This function searches the given path for both grids and transect files present at the FRF to make the data into
     netCDF files
@@ -39,7 +39,12 @@ def convertText2NetCDF(fnameIn):
     # creating a list of transect files to look for
     for transectFname in filelist:
         try:
-            Tofname = transectFname.split('.')[0] + '.nc'
+            if fnameOut is None:
+                Tofname = transectFname.split('.')[0] + '.nc'
+            elif fnameOut.endswith('.nc'):
+                Tofname = fnameOut 
+            else: 
+                Tofname = fnameOut + ".nc"
             print '  <II> Making %s ' % Tofname
             # first make transect
             TransectDict = sb.import_FRF_Transect(transectFname)
