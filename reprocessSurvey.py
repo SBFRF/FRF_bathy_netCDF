@@ -25,5 +25,5 @@ for f in flist:
     # generate output filename and path
     outFname = os.path.join(surveyOutPrefix, filenameBase )
     # reprocess    
-ls
+
 

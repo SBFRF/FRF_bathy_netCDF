@@ -21,7 +21,7 @@ def convertText2NetCDF(fnameIn, fnameOut=None):
     transectGlobalYaml = yamlPath + 'transect_Global.yml'
     transectVarYaml = yamlPath + 'transect_variables.yml'    
     
-    ## INPUTS   - rename
+    ## INPUTS  - rename
     if fnameIn.split('.')[-1] in ['txt', "txt'"]:
         filelist = []
         gridList = [fnameIn]  
@@ -34,8 +34,8 @@ def convertText2NetCDF(fnameIn, fnameOut=None):
         print '<<ERROR>> No Files To Convert to NetCDF'
         
     logFile = fnameIn[:-4].split('/')[-1]+ 'BathyNetCDFConversion.log'
-
     errorFname, errors = [],[]
+
     # creating a list of transect files to look for
     for transectFname in filelist:
         try:
@@ -48,7 +48,8 @@ def convertText2NetCDF(fnameIn, fnameOut=None):
             print '  <II> Making %s ' % Tofname
             # first make transect
             TransectDict = sb.import_FRF_Transect(transectFname)
-            TransectDict['time'] = nc.date2num(TransectDict['time'], 'seconds since 1970-01-01')
+            TransectDict['time'] = nc.date2num(TransectDict['time'], 'seconds since 1970-01-01')  # turn data points into epoch time
+            # now generate a date only 
             TransectDict['date'] = [time.mktime(TransectDict['date'][ii].timetuple()) for ii in range(TransectDict['date'].shape[0])]
             makenc.makenc_FRFTransect(bathyDict=TransectDict, ofname=Tofname,
                                       globalYaml=transectGlobalYaml, varYaml=transectVarYaml)
@@ -81,8 +82,11 @@ def convertText2NetCDF(fnameIn, fnameOut=None):
 
 if __name__ == "__main__":
     opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
+    
     #  Location of where to look for files to convert
-    globPath = args[0]
-    if globPath.startswith("'") and globPath.endswith("'"):
-        globPath = globPath[1:-1]
-    convertText2NetCDF(globPath)
+    #globPath = args[0]
+    #if globPath.startswith("'") and globPath.endswith("'"):
+    #    globPath = globPath[1:-1]
+    fname = args[0]
+    convertText2NetCDF(fname)
+    

@@ -1,6 +1,6 @@
 # Survey Template
 
-_variables: ['time', 'Latitude', 'Longitude', 'Northing', 'Easting', 'FRF_Xshore', 'FRF_Yshore', 'Elevation', 'Profile_number', 'Survey_number',  'Ellipsoid']
+_variables: ['time', 'Latitude', 'Longitude', 'Northing', 'Easting', 'xFRF', 'yFRF', 'Elevation', 'Profile_number', 'Survey_number',  'Ellipsoid', 'date']
 _attributes: ['notes']
 _dimensions: ['time']
 
@@ -14,6 +14,17 @@ time:
     dim: ['time']
     calendar: 'gregorian'
     fill_value: '-999'
+    notes: 'this is the time of each data point collected in the survey'
+    
+date:
+    name: 'date'
+    units: 'seconds since 1970-01-01 00:00:00'
+    long_name: 'UTC Sample Time'
+    data_type: 'f8'
+    dim: ['time']
+    calendar: 'gregorian'
+    fill_value: '-999'
+    notes: 'this is the date value only for each survey'
 
 Latitude:
     name: 'lat'
@@ -38,7 +49,6 @@ Longitude:
 Northing:
     name: 'northing'
     units: 'm'
-    standard_name: ''
     long_name: 'Northing in NC Stateplane 3200'
     data_type: 'f8'
     dim: ['time']
@@ -48,14 +58,13 @@ Northing:
 Easting:
     name: 'easting'
     units: 'm'
-    standard_name: ''
     long_name: 'Northing in NC Stateplane 3200'
     data_type: 'f8'
     dim: ['time']
     fill_value: '-999'
     short_name: 'Easting'
 
-FRF_Xshore:
+xFRF:
     name: 'xFRF'
     units: 'm'
     long_name: 'Local FRF Cross-Shore Coordinate'
@@ -64,10 +73,9 @@ FRF_Xshore:
     fill_value: '-999'
     short_name: 'x'
 
-FRF_Yshore:
+yFRF:
     name: 'yFRF'
     units: 'm'
-    standard_name: ''
     long_name: 'Local FRF Along-Shore coordinate'
     data_type: 'f8'
     dim: ['time']
@@ -92,7 +100,7 @@ Collection_Platform:
     standard_name: ''
     long_name: 'Collection_Platform'
     data_type: 'S1'
-    dim: ['waveDirectionBins']
+    dim: ['time']
     fill_value: '-999.99'
     short_name: ''
     description: 'Survey Craft used during data collection (i.e LARC, CRAB, Sled)'
