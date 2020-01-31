@@ -1,9 +1,7 @@
 import sys, getopt, os
 sys.path.append('/home/spike/CMTB/')
-import makenc, glob, time
-from matplotlib import pyplot as plt
+import makenc, time
 import netCDF4 as nc
-import numpy as np
 import sblib as sb
 
 def convertText2NetCDF(fnameIn, fnameOut=None):
@@ -59,15 +57,15 @@ def convertText2NetCDF(fnameIn, fnameOut=None):
             errorFname.append(transectFname)
     # looping through grids in grid List
     for gridFname in gridList:
-        try:
+        #try:
             ofname = gridFname.split('.')[0] + '.nc'
             print '  <II> Making %s ' %ofname
             makenc.convert_FRFgrid(gridFname, ofname, gridGlobalYaml, gridVarYaml, plotFlag=False)
 
-        except Exception, e:
-            print e
-            errors.append(e)
-            errorFname.append(gridFname)
+        #except Exception, e:
+            #print e
+       #     errors.append(e)
+        #    errorFname.append(gridFname)
 
     # log errors
     # log errors that were encountered during file creation

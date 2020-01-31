@@ -517,7 +517,7 @@ def convert_FRFgrid(gridFname, ofname, globalYaml, varYaml, plotFlag=False):
     gridDict['xFRF'] = gridDict.pop('xgrid')
     gridDict['yFRF'] = gridDict.pop('ygrid')
     # addding 3rd dimension for time
-    a = gridDict.pop('zgrid')
+    a = (gridDict.pop('zgrid')).T # switches  x and y FRF here 
     gridDict['elevation'] = np.full([1, a.shape[0], a.shape[1]], fill_value=[a], dtype=np.float32)
 
 # making the netCDF file from the gridded data

@@ -20,7 +20,7 @@ latitude:
     standard_name: ''
     long_name: 'Latitude'
     data_type: 'f8'
-    dim: ['yFRF', 'xFRF']
+    dim: ['xFRF', 'yFRF']
     fill_value: '-999'
 
 longitude:
@@ -29,7 +29,7 @@ longitude:
     standard_name: ''
     long_name: 'Longitude'
     data_type: 'f8'
-    dim: ['yFRF', 'xFRF']
+    dim: ['xFRF', 'yFRF']
     fill_value: '-999'
 
 northing:
@@ -38,7 +38,7 @@ northing:
     standard_name: ''
     long_name: 'Northing in NC Stateplane 3200'
     data_type: 'f8'
-    dim: ['yFRF', 'xFRF']
+    dim: ['xFRF', 'yFRF']
     fill_value: '-999'
     short_name: 'Northing'
 
@@ -48,7 +48,7 @@ easting:
     standard_name: ''
     long_name: 'Northing in NC Stateplane 3200'
     data_type: 'f8'
-    dim: ['yFRF', 'xFRF']
+    dim: ['xFRF', 'yFRF']
     fill_value: '-999'
     short_name: 'Easting'
 
@@ -78,7 +78,7 @@ elevation:
     standard_name: ''
     long_name: 'bottom elevation'
     data_type: 'f8'
-    dim: ['time','yFRF', 'xFRF']
+    dim: ['time','xFRF', 'yFRF']
     fill_value: '-999'
     short_name: 'z'
     description: 'Elevation is in NAVD88'
