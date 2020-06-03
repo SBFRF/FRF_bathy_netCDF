@@ -36,8 +36,6 @@ contributor_name: USACE/CHL/COAB
 contributor_role: USACE/CHL/COAB
 naming_authority: FRF
 origin: USACE/CHL/COAB
-date_created: '2015-09-19'
-date_issued: '2015-09-19'
 acknowledgement: >
   Data are provided by the Field Research Facility;
   Coastal Observations &amp; Analysis Branch;
@@ -46,22 +44,11 @@ project: USACE/COAB observations
 id: FRF-ocean_waves_awac6m
 processing_level: L1
 geospatial_vertical_units: m
-geospatial_vertical_resolution: 0
-geospatial_vertical_min: 0
-geospatial_vertical_max: 0
-geospatial_vertical_origin: sea surface
-geospatial_lat_min:
-geospatial_lat_max:
+geospatial_vertical_resolution: 0.01
+geospatial_vertical_origin: NAVD88
 geospatial_lat_units: degrees_north
-geospatial_lon_min:
-geospatial_lon_max:
 geospatial_lon_units: degrees_east
 geospatial_vertical_positive: up
-time_coverage_start: '2015-09-18T22:00:00Z'
-time_coverage_end: '2015-09-18T22:00:00Z'
-deployment_start: '2015-09-18T22:00:00Z'
-platform:
-instrument:
-cross_shore_angle_units:
+cross_shore_angle_units: degrees_north
 cross_shore_angle_description: cross shore angle at the USACE FRF site in DUCK, NC, clockwise from true north
 cross_shore_angle: 71.8

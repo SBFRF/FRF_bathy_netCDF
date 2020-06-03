@@ -1,13 +1,13 @@
 # WAVE TEMPLATE
 
-_variables: ['time', 'latitude', 'longitude', 'northing', 'easting', 'xFRF', 'yFRF', 'elevation', 'surveyNumber', 'surveyVehicle', 'project', 'surveyInstrumentation']
+_variables: ['time',  'xFRF', 'yFRF', 'elevation', 'latitude', 'longitude', 'surveyNumber', 'surveyVehicle', 'project', 'surveyInstrumentation', 'versionDate']
 _attributes: ['notes']
-_dimensions: ['time', 'xFRF', 'yFRF']
+_dimensions: ['time', 'xFRF', 'yFRF', 'project']
 
 time:
     name: 'time'
     units: 'seconds since 1970-01-01 00:00:00'
-    standard_name: ''
+    standard_name: 'time'
     long_name: 'UTC Survey Date'
     data_type: 'f8'
     dim: ['time']
@@ -17,60 +17,45 @@ time:
 latitude:
     name: 'latitude'
     units: 'degrees_north'
-    standard_name: ''
+    standard_name: 'latitude'
     long_name: 'Latitude'
     data_type: 'f8'
-    dim: ['xFRF', 'yFRF']
+    dim: ['yFRF', 'xFRF']
     fill_value: '-999'
+    epsg: 6318
+
 
 longitude:
     name: 'longitude'
     units: 'degrees_east'
-    standard_name: ''
+    standard_name: 'longitude'
     long_name: 'Longitude'
     data_type: 'f8'
-    dim: ['xFRF', 'yFRF']
+    dim: ['yFRF', 'xFRF']
     fill_value: '-999'
-
-northing:
-    name: 'northing'
-    units: 'm'
-    standard_name: ''
-    long_name: 'Northing in NC Stateplane 3200'
-    data_type: 'f8'
-    dim: ['xFRF', 'yFRF']
-    fill_value: '-999'
-    short_name: 'Northing'
-
-easting:
-    name: 'easting'
-    units: 'm'
-    standard_name: ''
-    long_name: 'Northing in NC Stateplane 3200'
-    data_type: 'f8'
-    dim: ['xFRF', 'yFRF']
-    fill_value: '-999'
-    short_name: 'Easting'
+    epsg: 6318
 
 xFRF:
     name: 'xFRF'
     units: 'm'
-    standard_name: ''
-    long_name: 'Local FRF Cross-Shore Coordinate'
+    long_name: "x-coordinate in Local FRF Cartesian system"
     data_type: 'f8'
     dim: ['xFRF']
     fill_value: '-999'
     short_name: 'x'
+    axis: 'X'
+    notes: "this is the cross-shore coordinate in the local FRF coordinate system"
 
 yFRF:
     name: 'yFRF'
     units: 'm'
-    standard_name: ''
-    long_name: 'Local FRF Along-Shore coordinate'
+    long_name: "y-coordinate in Local FRF Cartesian system"
     data_type: 'f8'
     dim: ['yFRF']
     fill_value: '-999'
     short_name: 'y'
+    axis: 'Y'
+    notes: "this is the alongshore coordinate in the local FRF coordinate system"
 
 elevation:
     name: 'elevation'
@@ -78,10 +63,13 @@ elevation:
     standard_name: ''
     long_name: 'bottom elevation'
     data_type: 'f8'
-    dim: ['time','yFRF', 'xFRF']
+    dim: ['time', 'yFRF', 'xFRF']
     fill_value: '-999'
     short_name: 'z'
-    description: 'Elevation is in NAVD88'
+    epsg: 5703
+    coordinate: 'longitude latitude'
+    notes: 'Elevation is in NAVD88'
+    vertical: up
 
 surveyNumber:
     name: 'surveyNumber'
@@ -118,20 +106,19 @@ surveyVehicle:
 versionDate:
     name: 'versionDate'
     units: 'm'
-    standard_name: ''
     long_name: 'Date of Last file Edits'
     data_type: 'f8'
     dim: ['time']
     fill_value: '-999'
     short_name: 'version Date'
+    notes: "ocasionally data are re-processed if issue is found, the date of last process is put in this variable. typically data are processed in the same week"
 
 project:
     name: 'project'
-    units: 'm'
-    standard_name: ''
+    units: '1'
     long_name: 'FRF project name'
-    data_type: 'f8'
-    dim: ['time']
+    data_type: 'S1'
+    dim: ['time', 'project']
     fill_value: '-999'
     short_name: 'Project'
-    notes: 'FRF project name; FRF is standard monthly survey'
+    notes: 'FRF project name; FRF is standard monthly survey, if part of experiment or another project, values are listed here'

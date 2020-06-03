@@ -14,10 +14,10 @@ import datetime as DT
 import yaml
 import time as ttime
 try:
-    import sblib as sb
+    from . import sblib as sb
 except ImportError:
     import sys
-    sys.path.append('c:\users\u4hncasb\documents\code_repositories\sblib')
+    sys.path.append('c:\\users\\u4hncasb\documents\code_repositories\sblib')
     sys.path.append('/home/spike/repos/sblib')
     sys.path.append('/home/number/repos/sblib')
     import sblib as sb
@@ -90,7 +90,7 @@ def init_nc_file(nc_filename, attributes):
     ncfile = nc.Dataset(nc_filename, 'w')
 
     # Write some Global Attributes
-    for key, value in attributes.iteritems():
+    for key, value in attributes.items():
         # Skip and empty fields or this will bomb
         #print 'key %s; value %s' %( key, value)
         if value is not None:
@@ -180,7 +180,7 @@ def write_data_to_nc(ncfile, template_vars, data_dict, write_vars='_variables'):
                 elif len(template_vars[var]["dim"]) == 0:
                     try:
                         new_var[:] = data_dict[var]
-                    except Exception, e:
+                    except Exception as e:
                         new_var = data_dict[var]
 
                 elif len(template_vars[var]["dim"]) == 1:
@@ -194,7 +194,7 @@ def write_data_to_nc(ncfile, template_vars, data_dict, write_vars='_variables'):
                         except IndexError:
                             try:
                                 new_var[:] = data_dict[var][0][0]
-                            except Exception, e:
+                            except Exception as e:
                                 raise e
 
                 elif len(template_vars[var]["dim"]) == 2:
@@ -210,7 +210,7 @@ def write_data_to_nc(ncfile, template_vars, data_dict, write_vars='_variables'):
                             # squeeze the 3d array in to 2d as dimension is not needed
                             x[i] = np.squeeze(data_dict[var][i])
                         new_var[:, :] = x
-                    except Exception, e:
+                    except Exception as e:
                         # if the tuple fails must be right...right?
                         new_var[:] = data_dict[var]
 
@@ -223,10 +223,10 @@ def write_data_to_nc(ncfile, template_vars, data_dict, write_vars='_variables'):
                         x[i] = data_dict[var][i]
                     new_var[:, :, :] = x[:, :, :]
 
-            except Exception, e:
+            except Exception as e:
                 num_errors += 1
                 error_str += 'ERROR WRITING VARIABLE: ' + var + ' - ' + str(e) + '\n'
-                print error_str
+                print(error_str)
 
     return num_errors, error_str
 
@@ -366,9 +366,9 @@ def makenc_Station(stat_data, globalyaml_fname, flagfname, ofname, griddata, sta
     tdim = fid.createDimension('time', np.shape(stat_data['time'])[0])  #
     inputtypes = fid.createDimension('input_types_length', np.shape(flags)[1])  # there are 4 input data types for flags
     statnamelen = fid.createDimension('station_name_length', len(stat_data['station_name']))
-    northing = fid.createDimension('Northing', 1L)
-    easting = fid.createDimension('Easting', 1L )
-    Lon = fid.createDimension('Lon', np.size(stat_data['Lon']))    
+    northing = fid.createDimension('Northing', 1)
+    easting = fid.createDimension('Easting', 1 )
+    Lon = fid.createDimension('Lon', np.size(stat_data['Lon']))
     Lat = fid.createDimension('Lat', np.size(stat_data['Lat']))
     dirbin = fid.createDimension('waveDirectionBins', np.size(stat_data['waveDirectionBins']))
     frqbin = fid.createDimension('waveFrequency', np.size(stat_data['waveFrequency']))
@@ -381,11 +381,11 @@ def makenc_Station(stat_data, globalyaml_fname, flagfname, ofname, griddata, sta
     # close file
     fid.close()
 
-def convert_FRFgrid(gridFname, ofname, globalYaml, varYaml, plotFlag=False):
+def convert_FRFgrid(xyz, ofname, globalYaml, varYaml, plotFlag=False):
     """
     This function will convert the FRF gridded text product into a NetCDF file
 
-    :param gridFname: input FRF gridded product
+    :param gridFname: xyz data from sb.loadgrid
     :param ofname:  output netcdf filename
     :param globalYaml: a yaml file containing global meta data
     :param varYaml:  a yaml file containing variable meta data
@@ -395,13 +395,13 @@ def convert_FRFgrid(gridFname, ofname, globalYaml, varYaml, plotFlag=False):
     # defining the bounds of the FRF gridded product
     gridYmax = 1100  # maximum FRF Y distance for netCDF file
     gridYmin = -100  # minimum FRF Y distance for netCDF file
-    gridXmax = 950  # maximum FRF X distance for netCDF file
-    gridXmin = 50  # minimum FRF xdistance for netCDF file
+    gridXmax = 950   # maximum FRF X distance for netCDF file
+    gridXmin = 50    # minimum FRF xdistance for netCDF file
     fill_value = '-999'
     # main body
     # load Grid from file
-    xyz = sb.importFRFgrid(gridFname)
 
+    
     # make dictionary in right form
     dx = np.median(np.diff(xyz['x']))
     dy = np.max(np.diff(xyz['y']))

@@ -46,8 +46,8 @@ def makegif(flist, ofname, size=None, dt=0.5):
 
 def find_nearest(array, value):
     '''
-	Function looks for value in array and returns the closest array value 
-	(to 'value') and index of that value 
+	Function looks for value in array and returns the closest array value
+	(to 'value') and index of that value
 	'''
     idx = (np.abs(array - value)).argmin()
     return array[idx], idx
@@ -55,7 +55,7 @@ def find_nearest(array, value):
 
 def SBcleanangle(directions, deg=360):
     '''
-	This function cleans an array of angles (in degrees) to all positive 
+	This function cleans an array of angles (in degrees) to all positive
 	values ranging from 0 to 360
 	
 	Currently is designed for only degree angles
@@ -83,16 +83,16 @@ def FRFcoord(p1, p2):
     #  15 Dec 2014
     #  Kent Hathaway.
     #  Translated from Matlab to python 2015-11-30 - Spicer Bak
-    #    
+    #
     #  Uses new fit (angles and scales) Bill Birkemeier determined in Nov 2014
-    #  
+    #
     #  This version will determine the input based on values, outputs FRF, lat/lon,
     #  and state plane coordinates.  Uses NAD83-2011.
     #
     #  IO:
-    #  p1 = FRF X (m), or Longitude (deg + or -), or state plane Easting (m) 
+    #  p1 = FRF X (m), or Longitude (deg + or -), or state plane Easting (m)
     #  p2 = FRF Y (m), or Latitude (deg), or state plane Northing (m)
-    #	
+    #
     #  X = FRF cross-shore (m)
     #  Y = FRF longshore (m)
     #  ALat = latitude (decimal degrees)
@@ -100,23 +100,23 @@ def FRFcoord(p1, p2):
     #  spN = state plane northing (m)
     #  spE = state plane easting (m)
 
-    NAD83-86	2014 
+    NAD83-86	2014
     Origin Latitude          36.1775975
     Origin Longitude         75.7496860
-    m/degLat             110963.357 
-    m/degLon              89953.364 
+    m/degLat             110963.357
+    m/degLon              89953.364
     GridAngle (deg)          18.1465
     Angle FRF to Lat/Lon     71.8535
     Angle FRF to State Grid  69.9747
-    FRF Origin Northing  274093.1562 
-    Easting              901951.6805 
+    FRF Origin Northing  274093.1562
+    Easting              901951.6805
 
     #  Debugging values
     p1=566.93;  p2=515.11;  % south rail at 1860
     ALat = 36.1836000
     ALon = 75.7454804
     p2= 36.18359977;  p1=-75.74548109;
-    SP:  p1 = 902307.92; 	p2 = 274771.22; 
+    SP:  p1 = 902307.92; 	p2 = 274771.22;
     '''
     assert np.size(p1) == 1, 'This function does not support lists or arrays '
     r2d = 180.0 / np.pi;
@@ -191,7 +191,7 @@ def FRFcoord(p1, p2):
 
 
     else:
-        print '<<ERROR>> Cound not determine input type, returning NaNs'
+        print('<<ERROR>> Cound not determine input type, returning NaNs')
         ALat = float('NaN');
         ALon = float('NaN');
         spN = float('NaN');
@@ -213,9 +213,9 @@ def findbtw(data, lwth, upth, type=0):
 	upth = upper level threshold
 	lwth = lower level threshold
 	list = list (or numpy array?)
-	type: 
+	type:
 		0 = non inclusive  ie. lwth < list <  upth
-		1 = low incluisve  ie. lwth <=list <  upth 
+		1 = low incluisve  ie. lwth <=list <  upth
 		2 = high inclusive ie. lwth < list <= upth
 		3 = all inclusive  ie  lwth <=list <= upth
 	'''
@@ -267,7 +267,7 @@ def unpackDictionary(pack):
     :param pack:
     :return:
     """
-    for key, val in pack.items():  # unpack the keys from the dictionary to individual variables
+    for key, val in list(pack.items()):  # unpack the keys from the dictionary to individual variables
         exec (key + '=val')
 
 class Bunch(object):
@@ -346,9 +346,9 @@ def angle_correct(angle_in, rad=0):
         return angle_in
     if rad == 0:
         if (angle_in == 0).all():
-            print 'WARNING - Correcting angles of Zero'
+            print('WARNING - Correcting angles of Zero')
         elif (np.abs(angle_in) < 2 * np.pi).all():
-            print ' WARNING angles are all < 2Pi , ensure that angles are in degrees not radians'
+            print(' WARNING angles are all < 2Pi , ensure that angles are in degrees not radians')
         shape = np.shape(angle_in)
         if len(shape) == 0:
             posmask = angle_in >= 360
@@ -380,7 +380,7 @@ def angle_correct(angle_in, rad=0):
                 negmask = angle_in_2 < 0  # seeing what's under 0
                 while negmask.any() or posmask.any():
                     if negmask.any():  # filter negs out
-                        idxneg = np.where(negmask)  # finding ids of where 
+                        idxneg = np.where(negmask)  # finding ids of where
                         if np.size(angle_in_2) == 1 and negmask == True:  # if there's only 1 instance
                             angle_in_2 += 360
                         else:
@@ -406,7 +406,7 @@ def angle_correct(angle_in, rad=0):
                     negmask = angle_in_2 < 0  # seeing what's under 0
                     while negmask.any() or posmask.any():
                         if negmask.any():  # filter negs out
-                            idxneg = np.where(negmask)  # finding ids of where 
+                            idxneg = np.where(negmask)  # finding ids of where
                             if np.size(angle_in_2) == 1 and negmask == True:  # if there's only 1 instance
                                 angle_in_2 += 360
                             else:
@@ -422,7 +422,7 @@ def angle_correct(angle_in, rad=0):
                     angle_in_3[ii, :] = angle_in_2
                 angle_in[:, yy, :] = angle_in_3
     else:
-        print '<<ERROR>> this function only takes angles in as degrees right now'
+        print('<<ERROR>> this function only takes angles in as degrees right now')
         raise
     assert (angle_in < 360).all() and (angle_in >= 0).all(), 'The angle correction function didn''t work properly'
     return angle_in
@@ -475,7 +475,7 @@ def statsBryant(observations, models):
 def printStatDict(dict):
     for key in dict:
         if key not in ['residuals', 'fitline','meta']:
-            print '%s, %.3f' %(key, dict[key])
+            print('%s, %.3f' %(key, dict[key]))
 
 def timeMatch(obs_time, obs_data, model_time, model_data):
     """
@@ -529,9 +529,9 @@ def timeMatch(obs_time, obs_data, model_time, model_data):
 
 
 def waveStat(spec, dirbins, frqbins, lowFreq=0.05, highFreq=0.5):
-    """     
+    """
     this function will calculate the mean direction from a full spectrum
-    only calculates on one 2D spectrum at a time 
+    only calculates on one 2D spectrum at a time
     defaults to 0.05 hz to 0.5 hz frequency for the statistics
     Input:
         %     spec  Frequency-direction spectra (2D)       shape(record,frqbin,dirbin)
@@ -546,19 +546,19 @@ def waveStat(spec, dirbins, frqbins, lowFreq=0.05, highFreq=0.5):
         %    Tm01   Average period, frequency sprectra weighted, from first moment (Tm0,1)
         %    Dp   Peak direction at the peak frequency
         %   Dmp   Mean direction at the peak frequency
-        %    Dm   Mean wave direction  
+        %    Dm   Mean wave direction
         %  sprdF  Freq-spec spread (m0*m4 - m2^2)/(m0*m4)  (one definition)
-        %  sprdD  Directional spread (m0*m4 - m2^2)/(m0*m4)  (one definition, Kuik 1988, buoys), 
+        %  sprdD  Directional spread (m0*m4 - m2^2)/(m0*m4)  (one definition, Kuik 1988, buoys),
         %         total sea-swell
         %         sprdD = r2d * sqrt(2.0 * (1.0 - sqrt(Xcomp.^2 + Ycomp^2)));
-        %         where  Xcomp = sum(sin(Drad) .* Ds .* dwdir) ./ sum(Ds .* dwdir); 
+        %         where  Xcomp = sum(sin(Drad) .* Ds .* dwdir) ./ sum(Ds .* dwdir);
         %                Ycomp = sum(cos(Drad) .* Ds .* dwdir) ./ sum(Ds .* dwdir);
         % sprdDhp  half-power direction width in direction spectra at peak freq (not currently incorporated)
         %  Tm10 - Mean Absolute wave Period from -1 moment
 
             return order [ Hm0, Tp, TmSecondMoment, Tm01,  Dp, Dm, Dmp, sprdF, sprdD, stats], Tm10
         Code Translated by Spicer Bak from: fd2BulkStats.m written by Kent Hathaway
-            
+        
     """
     assert type(frqbins) in [np.ndarray, np.ma.MaskedArray], 'the input frqeuency bins must be a numpy array'
     assert type(dirbins) in [np.ndarray, np.ma.MaskedArray], 'the input DIRECTION bins must be a numpy array'
@@ -657,7 +657,7 @@ def waveStat(spec, dirbins, frqbins, lowFreq=0.05, highFreq=0.5):
     # hp = np.max(Dsp)/2;
     # ihp=find(Dsp > hp);
     #
-    #  % Left (d1) and right (d2) interps: Y=Dir, X=E   
+    #  % Left (d1) and right (d2) interps: Y=Dir, X=E
     # d1=interp1([Dsp(ihp(1)-1) Dsp(ihp(1)+1)], [dwdir(ihp(1)-1) dwdir(ihp(1)+1)], hp);
     # d2=interp1([Dsp(ihp(end)-1) Dsp(ihp(end)+1)], [dwdir(ihp(end)-1) dwdir(ihp(end)+1)], hp);
     # sprdDhp = d2 - d1;
@@ -756,9 +756,9 @@ def whatIsYesterday(now=DT.date.today(), string=1, days=1):
     :params:
     now:: the date to start counting backwards from
     string:: (1) output is in stiring format (default)
-             (2) output is in datetime format 
-    days:: how many days to count backwards from 
-           default = 1 
+             (2) output is in datetime format
+    days:: how many days to count backwards from
+           default = 1
     
     """
 
@@ -770,7 +770,7 @@ def whatIsYesterday(now=DT.date.today(), string=1, days=1):
 
 def createDateList(start, end, delta):
     """
-    creates a generator of dates 
+    creates a generator of dates
     """
     curr = start
     while curr <= end:
@@ -791,8 +791,8 @@ def importFRFgrid(fname_in):
 
     raw_x, raw_y = [], []
     ptCt, raw_z = [], []
-
-    with open(fname_in, 'rb') as f:
+    raw_lon, raw_lat = [], []
+    with open(fname_in, 'r') as f:
         reader = csv.reader(f)
         for row in reader:
             if len(row) == 1:
@@ -802,27 +802,34 @@ def importFRFgrid(fname_in):
                 raw_y.append(row[1])  # y in string format
                 raw_z.append(row[2])  # z in string format
             elif len(row) == 5:
-                raw_z.append(row[2])  # z in string format
-                raw_x.append(row[3])  # x in string format
-                raw_y.append(row[4])  # y in string format
-
+                raw_lon.append(float(row[0]))
+                raw_lat.append(float(row[1]))
+                raw_z.append(float(row[2]))  # z in string format
+                raw_x.append(float(row[3]))  # x in string format
+                raw_y.append(float(row[4]))  # y in string format
+            elif len(row) == 0:
+                continue
+            else:
+                raise ImportError('File format not understood')
 
     # initializing values to make strictly numbers, imported as strings
-    num_x = np.zeros(len(raw_x))
-    num_y = np.zeros(len(raw_y))
-    num_z = np.zeros(len(raw_z))
-    # making strings into floating point numbers
-    for ii in range(0, len(raw_x)):
-        num_x[ii] = float(raw_x[ii])
-        num_y[ii] = float(raw_y[ii])
-        num_z[ii] = float(raw_z[ii])
+    # num_x = np.zeros(len(raw_x))
+    # num_y = np.zeros(len(raw_y))
+    # num_z = np.zeros(len(raw_z))
+    # # making strings into floating point numbers
+    # for ii in range(0, len(raw_x)):
+    #     num_x[ii] = float(raw_x[ii])
+    #     num_y[ii] = float(raw_y[ii])
+    #     num_z[ii] = float(raw_z[ii])
     # gridding
 
 
     # format dictionary for output
-    out = {'x': num_x,
-           'y': num_y,
-           'z': num_z,
+    out = {'raw_x': raw_x,
+           'raw_y': raw_y,
+           'raw_z': raw_z,
+           'raw_lon': raw_lon,
+           'raw_lat': raw_lat
            }
     return out
 
