@@ -63,7 +63,11 @@ elevation:
     standard_name: ''
     long_name: 'bottom elevation'
     data_type: 'f8'
+<<<<<<< HEAD
     dim: ['time', 'yFRF', 'xFRF']
+=======
+    dim: ['time','xFRF', 'yFRF']
+>>>>>>> b0d0e9171b551b0806dbaa9401e99c206448b646
     fill_value: '-999'
     short_name: 'z'
     epsg: 5703

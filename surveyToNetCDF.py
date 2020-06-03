@@ -3,19 +3,21 @@ can be run from terminal
 """
 import sys, getopt, os
 import geoprocess as gp
-import makenc
+import makenc, time
 import netCDF4 as nc
-import numpy as np
 import sblib as sb
 import py2netCDF as p2nc
 import datetime as DT
+import numpy as np
 
 def convertText2NetCDF(fnameIn):
     """This function searches the given path for both grids and transect files present at the FRF to make the data into
     netCDF files.
     
+
     the below yaml's have to be in the same folder as the
-    :param globPath: a path to find the yaml files and the data
+    
+    :param fnameIn: a path to find the yaml files and the data
     :return:
     """
     ## INPUTS
@@ -25,7 +27,7 @@ def convertText2NetCDF(fnameIn):
     transectGlobalYaml = yamlPath + 'transect_Global.yml'
     transectVarYaml = yamlPath + 'transect_variables.yml'
     
-    ## INPUTS   - rename
+    ## INPUTS  - rename
     if fnameIn.split('.')[-1] in ['txt', "txt'"]:
         filelist = []
         gridList = [fnameIn]
@@ -40,6 +42,7 @@ def convertText2NetCDF(fnameIn):
     logFile = os.path.join(globPath, 'Bathy_LOG.log')
 
     errorFname, errors = [],[]
+
     # creating a list of transect files to look for
     print('Converting %d Transect (csv) file(s) to netCDF ' % len(filelist))
     for transectFname in filelist:
@@ -109,6 +112,7 @@ def convertText2NetCDF(fnameIn):
             print(e)
             errors.append(e)
             errorFname.append(gridFname)
+
 
     # log errors
     # log errors that were encountered during file creation
@@ -190,9 +194,11 @@ def fillFRFgridTemplate(xFRF, yFRF, elev, **kwargs):
 
 if __name__ == "__main__":
     opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
+    
     #  Location of where to look for files to convert
     globPath = args[0]
     if globPath.startswith("'") and globPath.endswith("'"):
         globPath = globPath[1:-1]
     convertText2NetCDF(globPath)
+
 
