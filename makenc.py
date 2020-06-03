@@ -13,7 +13,7 @@ import csv
 import datetime as DT
 import yaml
 import time as ttime
-from . import sblib as sb
+import sblib as sb
 
 
 def readflags(flagfname, header=1):

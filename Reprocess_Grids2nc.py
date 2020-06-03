@@ -9,6 +9,7 @@ import sblib as sb
 import py2netCDF as p2nc
 import datetime as DT
 from surveyToNetCDF import fillFRFgridTemplate
+from surveyToNetCDF import preprocessGridFile
 
 def convertText2NetCDF(globPath):
     """This function searches the given path for both grids and transect files present at the FRF to make the data into
@@ -53,48 +54,9 @@ def convertText2NetCDF(globPath):
         try:
             # load text file
             outDict = sb.importFRFgrid(gridFname)
-            # read the file name parts
-            split = os.path.basename(gridFname).split('_')
-            # assign what I can
-            outDict['surveyNumber'] = int(split[2])
             
-            split = os.path.basename(gridFname).split('_')
-            # assign what I can
-            outDict['surveyNumber'] = int(split[2])
-            # process data into background data size and shape (with fill values)
-
-            #check to make sure that xFRF and yFRF are in total dataset.
-            outDict['xFRF'], outDict['yFRF'], outDict['longitude'], outDict['latitutde'], \
-            outDict['elevation'] = fillFRFgridTemplate(xFRF=np.unique(outDict['raw_x']),
-                                                       yFRF=np.unique(outDict['raw_y']),
-                                                       elev=outDict['raw_z'])
-            # now parse platform
-            if split[5].lower() == 'crab':
-                outDict['surveyPlatform'] = 0
-            elif split[5].lower() == 'larc':
-                outDict['surveyPlatform'] = 1
-            else:
-                raise AttributeError('do not understand survey platform')
-            # now parse instrumentation
-            if split[6].lower() == 'level':
-                outDict['instrumentation'] = 0
-            elif split[6].lower() == 'zeiss':
-                outDict['instrumentation'] = 1
-            elif split[6].lower() == 'geodimeter':
-                outDict['instrumentation'] = 2
-            elif split[6].lower() == 'gps':
-                outDict['instrumentation'] = 3
-            else:
-                raise AttributeError('do not understand instrumentation')
-            
-            #now parse version date
-            outDict['version'] = nc.date2num(DT.datetime.strptime(split[8], 'v%Y%m%d'), 'seconds since 1970-01-01')
-            outDict['time'] = nc.date2num(DT.datetime.strptime(split[1], '%Y%m%d'), 'seconds since 1970-01-01')
-
-            # now parse project name
-            outDict['project'] = "{:16s}".format(str(split[3]))
-
-            ofname = 'FRF_geomorphology_DEMs_surveyDEM_{}.nc'.format(split[1])
+            outDict, date = preprocessGridFile(outDict, gridFname)
+            ofname = 'FRF_geomorphology_DEMs_surveyDEM_{}.nc'.format(date)
             print('  <II> Making %s ' %ofname)
             p2nc.makenc_generic(ofname, gridGlobalYaml, gridVarYaml, data=outDict)
 

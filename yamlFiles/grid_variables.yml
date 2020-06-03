@@ -43,8 +43,8 @@ xFRF:
     dim: ['xFRF']
     fill_value: '-999'
     short_name: 'x'
-    axis: 'X'
     notes: "this is the cross-shore coordinate in the local FRF coordinate system"
+    axis: 'X'
 
 yFRF:
     name: 'yFRF'
@@ -54,31 +54,25 @@ yFRF:
     dim: ['yFRF']
     fill_value: '-999'
     short_name: 'y'
-    axis: 'Y'
     notes: "this is the alongshore coordinate in the local FRF coordinate system"
+    axis: 'Y'
 
 elevation:
     name: 'elevation'
     units: 'm'
-    standard_name: ''
     long_name: 'bottom elevation'
     data_type: 'f8'
-<<<<<<< HEAD
     dim: ['time', 'yFRF', 'xFRF']
-=======
-    dim: ['time','xFRF', 'yFRF']
->>>>>>> b0d0e9171b551b0806dbaa9401e99c206448b646
     fill_value: '-999'
     short_name: 'z'
     epsg: 5703
-    coordinate: 'longitude latitude'
+    coordinate: 'longitude latitude xFRF yFRF'
     notes: 'Elevation is in NAVD88'
-    vertical: up
+    vertical: 'up'
 
 surveyNumber:
     name: 'surveyNumber'
     units: 'm'
-    standard_name: ''
     long_name: 'FRF incremental survey number'
     data_type: 'i4'
     dim: ['time']
@@ -87,8 +81,7 @@ surveyNumber:
 
 surveyInstrumentation:
     name: 'surveyInstrumentation'
-    units: 'm'
-    standard_name: ''
+    units: '1'
     long_name: 'FRF survey instrumentation'
     data_type: 'i1'
     dim: ['time']
@@ -99,7 +92,6 @@ surveyInstrumentation:
 surveyVehicle:
     name: 'surveyVehicle'
     units: 'm'
-    standard_name: ''
     long_name: 'FRF survey vehicle'
     data_type: 'i1'
     dim: ['time']
@@ -109,7 +101,7 @@ surveyVehicle:
 
 versionDate:
     name: 'versionDate'
-    units: 'm'
+    units: 'seconds since 1970-01-01'
     long_name: 'Date of Last file Edits'
     data_type: 'f8'
     dim: ['time']
