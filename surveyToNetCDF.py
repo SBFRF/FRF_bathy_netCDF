@@ -10,6 +10,7 @@ import py2netCDF as p2nc
 import datetime as DT
 import numpy as np
 
+
 def convertText2NetCDF(fnameIn):
     """This function searches the given path for both grids and transect files present at the FRF to make the data into
     netCDF files.
@@ -39,7 +40,8 @@ def convertText2NetCDF(fnameIn):
         gridList = []
         print('<<ERROR>> No Files To Convert to NetCDF')
         
-    logFile = os.path.join(globPath, 'Bathy_LOG.log')
+    #logFile = os.path.join(globPath, 'Bathy_LOG.log')
+    logFile = '/home/mikef/netCDF_SurveyProcessing/FRF_Surveys/Bathy_LOG.log'
 
     errorFname, errors = [],[]
 
@@ -123,7 +125,7 @@ def preprocessGridFile(outDict, gridFname):
         raise AttributeError('do not understand instrumentation')
     
     #now parse version date
-    outDict['versionDate'] = nc.date2num(DT.datetime.strptime(split[8], 'v%Y%m%d'), 'seconds since 1970-01-01')
+    outDict['versionDate'] = nc.date2num(DT.datetime.strptime(split[9][1:], '%Y%m%d'), 'seconds since 1970-01-01')
     outDict['time'] = nc.date2num(DT.datetime.strptime(split[1], '%Y%m%d'), 'seconds since 1970-01-01')
     
     # now parse project name
@@ -167,8 +169,8 @@ def fillFRFgridTemplate(xFRF, yFRF, elev, **kwargs):
     zgrid = np.reshape(elev, (ygrid.shape[0], xgrid.shape[0]))                          # add time dimension
     
     # initalize netCDF output grid based on
-    ncXFRF = np.linspace(gridXmin, gridXmax, num=(gridXmax - gridXmin) / dx + 1, endpoint=True)
-    ncYFRF = np.linspace(gridYmin, gridYmax, num=(gridYmax - gridYmin) / dy + 1, endpoint=True)
+    ncXFRF = np.linspace(gridXmin, gridXmax, num=int((gridXmax - gridXmin) / dx + 1), endpoint=True)
+    ncYFRF = np.linspace(gridYmin, gridYmax, num=int((gridYmax - gridYmin) / dy + 1), endpoint=True)
     ncElevation = np.full((1, np.shape(ncYFRF)[0], np.shape(ncXFRF)[0]), fill_value=fill_value, dtype=np.float64)
     
     # find the overlap locations between input grid and the nodes used for the netCDF file
