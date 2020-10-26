@@ -1,6 +1,6 @@
 # Survey Template
 
-_variables: ['time', 'Latitude', 'Longitude', 'Northing', 'Easting', 'xFRF', 'yFRF', 'Elevation', 'Profile_number', 'Survey_number',  'Ellipsoid', 'date']
+_variables: ['time','date', 'Latitude', 'Longitude', 'Northing', 'Easting', 'xFRF', 'yFRF', 'Elevation', 'Profile_number', 'Survey_number',  'Ellipsoid']
 _attributes: ['notes']
 _dimensions: ['time']
 

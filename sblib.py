@@ -873,7 +873,7 @@ def import_FRF_Transect(fname):
     """
     import pytz
     c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13 = [], [], [], [], [], [], [], [], [], [], [], [], [], []
-    with open(fname, 'rb') as csvfile:  # opening the file
+    with open(fname, 'r') as csvfile:  # opening the file
         reader = csv.reader(csvfile, delimiter=',')  # reading the lines
         for row in reader:
             c0.append(str(row[0]))  # Locality Code

@@ -6,9 +6,11 @@ import geoprocess as gp
 import makenc, time
 import netCDF4 as nc
 import sblib as sb
+
 import py2netCDF as p2nc
 import datetime as DT
 import numpy as np
+import survey_SortTime as ss
 
 
 def convertText2NetCDF(fnameIn):
@@ -27,7 +29,9 @@ def convertText2NetCDF(fnameIn):
     gridVarYaml = yamlPath + 'grid_variables.yml'  # grid yaml location
     transectGlobalYaml = yamlPath + 'transect_Global.yml'
     transectVarYaml = yamlPath + 'transect_variables.yml'
-    
+
+    # this function has been added to sort the survey by time before netcdf conversion
+    ss.surveySortTime(fnameIn)
     ## INPUTS  - rename
     if fnameIn.split('.')[-1] in ['txt', "txt'"]:
         filelist = []
@@ -41,7 +45,7 @@ def convertText2NetCDF(fnameIn):
         print('<<ERROR>> No Files To Convert to NetCDF')
         
     #logFile = os.path.join(globPath, 'Bathy_LOG.log')
-    logFile = '/home/mikef/netCDF_SurveyProcessing/FRF_Surveys/Bathy_LOG.log'
+    logFile = '/home/mikef/PycharmProjects/netcdf_survey/Bathy_LOG.log'
 
     errorFname, errors = [],[]
 
@@ -52,8 +56,9 @@ def convertText2NetCDF(fnameIn):
             Tofname = transectFname[:-3] + 'nc'
             print('  <II> Making %s ' % Tofname)
             # first make transect
-            TransectDict = sb.import_FRF_Transect(transectFname)  # import frf Transect product
+            TransectDict = sb.import_FRF_Transect(fnameIn)  # import frf Transect product
             TransectDict['time'] = nc.date2num(TransectDict['time'], 'seconds since 1970-01-01')
+            TransectDict['date'] = [int(i.strftime('%s')) for i in TransectDict['date']]
             makenc.makenc_FRFTransect(bathyDict=TransectDict, ofname=Tofname, globalYaml=transectGlobalYaml, varYaml=transectVarYaml)
         except Exception as e:
             print(e)
@@ -125,7 +130,7 @@ def preprocessGridFile(outDict, gridFname):
         raise AttributeError('do not understand instrumentation')
     
     #now parse version date
-    outDict['versionDate'] = nc.date2num(DT.datetime.strptime(split[9][1:], '%Y%m%d'), 'seconds since 1970-01-01')
+    outDict['versionDate'] = nc.date2num(DT.datetime.strptime(split[8][1:], '%Y%m%d'), 'seconds since 1970-01-01')
     outDict['time'] = nc.date2num(DT.datetime.strptime(split[1], '%Y%m%d'), 'seconds since 1970-01-01')
     
     # now parse project name
