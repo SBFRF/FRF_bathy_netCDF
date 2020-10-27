@@ -44,8 +44,8 @@ def convertText2NetCDF(fnameIn):
         gridList = []
         print('<<ERROR>> No Files To Convert to NetCDF')
         
-    #logFile = os.path.join(globPath, 'Bathy_LOG.log')
-    logFile = '/home/mikef/PycharmProjects/netcdf_survey/Bathy_LOG.log'
+    logFile = os.path.join(globPath, 'Bathy_LOG.log')
+    #logFile = '/home/mikef/PycharmProjects/netcdfSurvey/Bathy_LOG.log'
 
     errorFname, errors = [],[]
 
@@ -53,7 +53,8 @@ def convertText2NetCDF(fnameIn):
     print('Converting %d Transect (csv) file(s) to netCDF ' % len(filelist))
     for transectFname in filelist:
         try:
-            Tofname = transectFname[:-3] + 'nc'
+            fname_parts = os.path.basename(transectFname).split('_')
+            Tofname = os.path.join(os.path.dirname(transectFname),'FRF_geomorphology_elevationTransects_survey_{}.nc'.format(fname_parts[1]))
             print('  <II> Making %s ' % Tofname)
             # first make transect
             TransectDict = sb.import_FRF_Transect(fnameIn)  # import frf Transect product
