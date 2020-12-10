@@ -44,8 +44,8 @@ def convertText2NetCDF(fnameIn):
         gridList = []
         print('<<ERROR>> No Files To Convert to NetCDF')
         
-    logFile = os.path.join(globPath, 'Bathy_LOG.log')
-    #logFile = '/home/mikef/PycharmProjects/netcdfSurvey/Bathy_LOG.log'
+    #logFile = os.path.join(globPath, 'Bathy_LOG.log')
+    logFile = '/home/mikef/PycharmProjects/netcdf_Survey/Bathy_LOG.log'
 
     errorFname, errors = [],[]
 
@@ -54,7 +54,7 @@ def convertText2NetCDF(fnameIn):
     for transectFname in filelist:
         try:
             fname_parts = os.path.basename(transectFname).split('_')
-            Tofname = os.path.join(os.path.dirname(transectFname),'FRF_geomorphology_elevationTransects_survey_{}.nc'.format(fname_parts[1]))
+            Tofname = os.path.join(os.path.dirname(transectFname),'FRF-geomorphology_elevationTransects_survey_{}.nc'.format(fname_parts[1]))
             print('  <II> Making %s ' % Tofname)
             # first make transect
             TransectDict = sb.import_FRF_Transect(fnameIn)  # import frf Transect product
@@ -73,7 +73,7 @@ def convertText2NetCDF(fnameIn):
             outDict = sb.importFRFgrid(gridFname)
 
             outDict, date = preprocessGridFile(outDict, gridFname)
-            ofname = 'FRF_geomorphology_DEMs_surveyDEM_{}.nc'.format(date)
+            ofname = 'FRF-geomorphology_DEMs_surveyDEM_{}.nc'.format(date)
             print('  <II> Making %s ' %ofname)
             p2nc.makenc_generic(ofname, gridGlobalYaml, gridVarYaml, data=outDict)
             
@@ -211,7 +211,7 @@ def fillFRFgridTemplate(xFRF, yFRF, elev, **kwargs):
 
 if __name__ == "__main__":
     opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
-    
+
     #  Location of where to look for files to convert
     globPath = args[0]
     if globPath.startswith("'") and globPath.endswith("'"):

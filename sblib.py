@@ -897,7 +897,7 @@ def import_FRF_Transect(fname):
         #print(ii, ''.join([c11[ii], c12[ii]]))
         try:  # data are in UTC already
             time.append(DT.datetime.strptime(''.join([c11[ii], c12[ii]]), 
-                                '%Y%m%d%H%M%S'))
+                                '%Y%m%d%H%M%S.%f'))
             date.append(time[-1].date())
         except(ValueError):
             del c0[ii], c1[ii], c2[ii], c3[ii], c4[ii],c5[ii], c6[ii],c7[ii]
