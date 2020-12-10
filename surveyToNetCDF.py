@@ -16,7 +16,7 @@ import survey_SortTime as ss
 def convertText2NetCDF(fnameIn):
     """This function searches the given path for both grids and transect files present at the FRF to make the data into
     netCDF files.
-    
+    Assumes a file called 'logs' in the local directory    
 
     the below yaml's have to be in the same folder as the
     
@@ -44,8 +44,13 @@ def convertText2NetCDF(fnameIn):
         gridList = []
         print('<<ERROR>> No Files To Convert to NetCDF')
         
+<<<<<<< HEAD
     #logFile = os.path.join(globPath, 'Bathy_LOG.log')
     logFile = '/home/mikef/PycharmProjects/netcdf_Survey/Bathy_LOG.log'
+=======
+    logFile = os.path.join('logs',globPath+'Bathy_LOG.log')
+    #logFile = '/home/mikef/PycharmProjects/netcdfSurvey/Bathy_LOG.log'
+>>>>>>> afeda5bd312e3f42e63c2bc7c1d8ce88ff3556d1
 
     errorFname, errors = [],[]
 
