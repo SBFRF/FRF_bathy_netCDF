@@ -46,7 +46,7 @@ def convertText2NetCDF(fnameIn):
         
 <<<<<<< HEAD
     #logFile = os.path.join(globPath, 'Bathy_LOG.log')
-    logFile = '/home/mikef/PycharmProjects/netcdf_Survey/Bathy_LOG.log'
+    #logFile = '/home/mikef/PycharmProjects/netcdf_Survey/Bathy_LOG.log'
 =======
     logFile = os.path.join('logs',globPath+'Bathy_LOG.log')
     #logFile = '/home/mikef/PycharmProjects/netcdfSurvey/Bathy_LOG.log'
